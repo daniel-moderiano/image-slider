@@ -1,3 +1,5 @@
+// GLOBAL VARIABLE DEFINITIONS
+
 const right = document.querySelector(".right");
 const left = document.querySelector(".left");
 
@@ -11,86 +13,98 @@ let counter = 1;
 
 imgCont.style.transform = `translateX(-${move * counter}px)`;
 
-function createInterval() {
-  let autoSlide = setInterval(function () {
-    if (counter >= images.length - 1) return;
-    imgCont.style.transition = "transform 0.4s ease-in-out";
-    counter++;
-    imgCont.style.transform = `translateX(-${move * counter}px)`;
-    dots.forEach(dot => {
-      dot.classList.remove('active');
-    });
-    if (counter > images.length - 2) {
-      dots[0].classList.add('active');
-    } else {
-      dots[counter - 1].classList.add('active');
-    } 
-  }, 5000);
-  return autoSlide;
-};
+// GLOBAL FUNCTION DEFINITIONS
 
-let currentInterval = createInterval();
-
-right.addEventListener('click', () => {
-  clearInterval(currentInterval);
-  currentInterval = createInterval();
-
-  if (counter >= images.length - 1) return;
-  imgCont.style.transition = "transform 0.4s ease-in-out";
-  counter++;
-  imgCont.style.transform = `translateX(-${move * counter}px)`;
+function removeActiveDotClass() {
   dots.forEach(dot => {
     dot.classList.remove('active');
   });
+}
+
+function addActiveDotClassForward() {
   if (counter > images.length - 2) {
     dots[0].classList.add('active');
   } else {
     dots[counter - 1].classList.add('active');
-  }  
-});
+  } 
+}
 
-
-left.addEventListener('click', () => {
-  clearInterval(currentInterval);
-  currentInterval = createInterval();
-  if (counter <= 0) return;
-  imgCont.style.transition = "transform 0.4s ease-in-out";
-  counter--;
-  imgCont.style.transform = `translateX(-${move * counter}px)`;
-  dots.forEach(dot => {
-    dot.classList.remove('active');
-  });
+function addActiveDotClassBackward() {
   if (counter < 1) {
     dots[dots.length - 1].classList.add('active');
   } else {
     dots[counter - 1].classList.add('active');
   } 
+}
+
+function changeSlide() {
+    imgCont.style.transition = "transform 0.4s ease-in-out";
+    imgCont.style.transform = `translateX(-${move * counter}px)`;
+}
+
+function cycleToStartOrEnd() {
+  imgCont.style.transition = "none";
+  imgCont.style.transform = `translateX(-${move * counter}px)`;
+}
+
+
+// APP LOGIC
+
+function createInterval() {
+  let autoSlide = setInterval(function () {
+    if (counter >= images.length - 1) return;
+    counter++;
+    changeSlide();
+    removeActiveDotClass();
+    addActiveDotClassForward();
+  }, 20000);
+  return autoSlide;
+};
+
+let currentInterval = createInterval();
+
+function resetInterval() {
+  clearInterval(currentInterval);
+  currentInterval = createInterval();
+};
+
+
+right.addEventListener('click', () => {
+  resetInterval();
+  if (counter >= images.length - 1) return;
+  counter++;
+  changeSlide();
+  removeActiveDotClass();
+  addActiveDotClassForward();
+});
+
+
+left.addEventListener('click', () => {
+  resetInterval();
+  if (counter <= 0) return;
+  counter--;
+  changeSlide();
+  removeActiveDotClass();
+  addActiveDotClassBackward();
 });
 
 imgCont.addEventListener('transitionend', () => {
   if (images[counter].id === 'lastClone') {
-    imgCont.style.transition = "none";
     counter = images.length - 2;
-    imgCont.style.transform = `translateX(-${move * counter}px)`;
+    cycleToStartOrEnd();
   }
-
   if (images[counter].id === 'firstClone') {
-    imgCont.style.transition = "none";
     counter = images.length - counter;
-    imgCont.style.transform = `translateX(-${move * counter}px)`;
+    cycleToStartOrEnd();
   }
 });
 
 dots.forEach(dot => {
   dot.addEventListener('click', (e) => {
-    clearInterval(currentInterval);
-    currentInterval = createInterval();
+    resetInterval();
     counter = e.target.dataset.id
-    dots.forEach(dot => {
-      dot.classList.remove('active');
-    });
+    removeActiveDotClass();
     e.target.classList.add('active');
-    imgCont.style.transition = "transform 0.4s ease-in-out";
-    imgCont.style.transform = `translateX(-${move * counter}px)`;
+    changeSlide();
   });
 });
