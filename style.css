@@ -63,6 +63,10 @@ img {
   height: 10px;
 }
 
+.dot:hover {
+  cursor: pointer;
+}
+
 .dot.active {
   background-color: rgb(189, 189, 189);
 }

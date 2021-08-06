@@ -34,12 +34,11 @@ left.addEventListener('click', () => {
   imgCont.style.transition = "transform 0.4s ease-in-out";
   counter--;
   imgCont.style.transform = `translateX(-${move * counter}px)`;
-  console.log(counter);
   dots.forEach(dot => {
     dot.classList.remove('active');
   });
   if (counter < 1) {
-    dots[4].classList.add('active');
+    dots[dots.length - 1].classList.add('active');
   } else {
     dots[counter - 1].classList.add('active');
   } 
@@ -57,4 +56,16 @@ imgCont.addEventListener('transitionend', () => {
     counter = images.length - counter;
     imgCont.style.transform = `translateX(-${move * counter}px)`;
   }
+});
+
+dots.forEach(dot => {
+  dot.addEventListener('click', (e) => {
+    counter = e.target.dataset.id
+    dots.forEach(dot => {
+      dot.classList.remove('active');
+    });
+    e.target.classList.add('active');
+    imgCont.style.transition = "transform 0.4s ease-in-out";
+    imgCont.style.transform = `translateX(-${move * counter}px)`;
+  });
 });
