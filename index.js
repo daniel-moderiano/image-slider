@@ -6,14 +6,35 @@ const images = document.querySelectorAll("img");
 
 const dots = document.querySelectorAll(".dot");
 
-
 const move = images[0].getBoundingClientRect().width
 let counter = 1;
-console.log(images.length);
 
 imgCont.style.transform = `translateX(-${move * counter}px)`;
 
+function createInterval() {
+  let autoSlide = setInterval(function () {
+    if (counter >= images.length - 1) return;
+    imgCont.style.transition = "transform 0.4s ease-in-out";
+    counter++;
+    imgCont.style.transform = `translateX(-${move * counter}px)`;
+    dots.forEach(dot => {
+      dot.classList.remove('active');
+    });
+    if (counter > images.length - 2) {
+      dots[0].classList.add('active');
+    } else {
+      dots[counter - 1].classList.add('active');
+    } 
+  }, 5000);
+  return autoSlide;
+};
+
+let currentInterval = createInterval();
+
 right.addEventListener('click', () => {
+  clearInterval(currentInterval);
+  currentInterval = createInterval();
+
   if (counter >= images.length - 1) return;
   imgCont.style.transition = "transform 0.4s ease-in-out";
   counter++;
@@ -30,6 +51,8 @@ right.addEventListener('click', () => {
 
 
 left.addEventListener('click', () => {
+  clearInterval(currentInterval);
+  currentInterval = createInterval();
   if (counter <= 0) return;
   imgCont.style.transition = "transform 0.4s ease-in-out";
   counter--;
@@ -60,6 +83,8 @@ imgCont.addEventListener('transitionend', () => {
 
 dots.forEach(dot => {
   dot.addEventListener('click', (e) => {
+    clearInterval(currentInterval);
+    currentInterval = createInterval();
     counter = e.target.dataset.id
     dots.forEach(dot => {
       dot.classList.remove('active');
