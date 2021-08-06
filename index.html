@@ -6,12 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="reset.css">
   <link rel="stylesheet" href="style.css">
+  <script src="https://kit.fontawesome.com/3c8d9c7c2a.js" crossorigin="anonymous"></script>
   <title>Image Slider</title>
 </head>
 <body>
   <div class="slider-container">
-    <button class="arrow-btn left"></button>
+    
     <div class="img-frame">
+      <button class="arrow-btn left">
+        <i class="fas fa-arrow-left"></i>
+      </button>
       <div class="img-container">
         <img id="lastClone" src="https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg" alt="">
         <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg" alt="">
@@ -21,8 +25,11 @@
         <img src="https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg" alt="">
         <img id="firstClone" src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg" alt="">
       </div>
+      <button class="arrow-btn right">
+        <i class="fas fa-arrow-right"></i>
+      </button>
     </div>
-    <button class="arrow-btn right"></button>
+    
   </div>
   <div class="dots">
     <div class="dot"></div>

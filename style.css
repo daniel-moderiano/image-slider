@@ -18,6 +18,7 @@ img {
 }
 
 .img-frame {
+  position: relative;
   display: flex;
   align-items: center;
   width: 500px;
@@ -29,33 +30,22 @@ img {
 }
 
 .arrow-btn {
-  border-top: 19px solid transparent;
-  border-bottom: 19px solid transparent;
-  background-color: rgb(255, 255, 255);
-}
-
-.arrow-btn:hover {
+  position: absolute;
+  border: none;
+  background-color: transparent;
+  color: white;
+  font-size: 2rem;
   cursor: pointer;
+  opacity: 0.8;
+  z-index: 10;
 }
 
 .right {
-  border-left: 2em solid rgb(94, 94, 94);
-  border-right: none;
-  margin-left: 1rem;
+  right: 1rem;
 }
 
 .left {
-  border-right: 2em solid rgb(94, 94, 94);
-  border-left: none;
-  margin-right: 1rem;
-}
-
-.right:hover {
-  border-left: 2em solid rgb(168, 168, 168);
-}
-
-.left:hover {
-  border-right: 2em solid rgb(168, 168, 168);
+  left: 1rem;
 }
 
 .dots {
